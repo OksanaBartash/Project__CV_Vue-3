@@ -1,3 +1,5 @@
+It is my first project where I used Vue.js.
+
 # cv_bartash
 
 ## Project setup
