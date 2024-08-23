@@ -3,18 +3,29 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Гілка, з якої буде здійснюватися деплой
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout the repository
+      uses: actions/checkout@v2
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages  # Гілка, в яку буде задеплоєний сайт
-          folder: .  # Папка з файлами для деплою
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the project
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public  # Шлях до папки, де знаходиться index.html
